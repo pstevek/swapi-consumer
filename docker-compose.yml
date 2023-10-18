@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: postpay-app
+    command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/src
+    networks:
+      - postpay
+
+  redis:
+    container_name: postpay-redis
+    image: redis:7.2.1-alpine3.18
+    ports:
+      - "6379:6379"
+    volumes:
+      - 'redisdata:/data'
+    networks:
+      - postpay
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      retries: 3
+      timeout: 5s
+
+networks:
+  postpay:
+    driver: bridge
+
+volumes:
+  redisdata:
+    driver: local
