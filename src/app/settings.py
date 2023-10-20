@@ -11,14 +11,14 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import environ
+import environ, os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, False)
+    DEBUG=(bool, True)
 )
 
 # Take environment variables from .env file
@@ -33,7 +33,7 @@ SECRET_KEY = 'django-insecure-xh+m2wf0h=seyiztqx0dg@9qcdgm$i$u*@$2nsri!w^ui+o=d8
 # False if not in os.environ because of casting above
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'people'
 ]
 
 MIDDLEWARE = [
@@ -83,8 +84,11 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': env.str('DB_HOST'),
+        'NAME': env.str('DB_NAME'),
+        'USER': env.str('DB_USER'),
+        'PASSWORD': env.str('DB_PASSWORD'),
     }
 }
 
@@ -138,3 +142,5 @@ CACHES = {
         "TIMEOUT": env.int("REDIS_TIMEOUT", 300)
     }
 }
+
+SWAPI_URL = env.str("SWAPI_URL", "https://swapi.dev/api/")
