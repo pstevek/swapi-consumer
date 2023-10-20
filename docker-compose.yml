@@ -4,18 +4,22 @@ services:
   app:
     build: .
     container_name: postpay-app
-    command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
     ports:
       - "8000:8000"
     env_file:
       - ./.env
     volumes:
       - ./src:/src
+    depends_on:
+      - db
     networks:
       - postpay
 
   redis:
-    container_name: postpay-redis
+    container_name: postpay-cache
     image: redis:7.2.1-alpine3.18
     ports:
       - "6379:6379"
@@ -28,10 +32,26 @@ services:
       retries: 3
       timeout: 5s
 
+  db:
+    container_name: postpay-db
+    image: postgres:13-alpine
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    networks:
+      - postpay
+
 networks:
   postpay:
     driver: bridge
 
 volumes:
+  pgdata:
+    driver: local
   redisdata:
     driver: local
