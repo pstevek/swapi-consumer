@@ -100,7 +100,7 @@ NOTE: Caching TTL is set to 5ms (300s). It can be changed via the `.env.sample` 
 `body`
 ````json
 {
-    "vote": "3"
+    "vote": 3
 }
 ````
 
@@ -110,7 +110,7 @@ NOTE: Caching TTL is set to 5ms (300s). It can be changed via the `.env.sample` 
     "success": true,
     "data": [
         {
-            "id": "7",
+            "id": 7,
             "name": "Beru Whitesun lars",
             "vote": 3
         }
@@ -124,22 +124,22 @@ NOTE: Caching TTL is set to 5ms (300s). It can be changed via the `.env.sample` 
     "success": true,
     "data": [
         {
-            "id": "2",
+            "id": 2,
             "name": "C-3PO",
             "vote": 4
         },
         {
-            "id": "7",
+            "id": 7,
             "name": "Beru Whitesun lars",
             "vote": 3
         },
         {
-            "id": "1",
+            "id": 1,
             "name": "Luke Skywalker",
             "vote": 0
         },
         {
-            "id": "64",
+            "id": 64,
             "name": "Luminara Unduli",
             "vote": 0
         }

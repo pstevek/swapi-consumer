@@ -38,7 +38,7 @@ def person(request, person_id):
     cache.delete(cache_key)
     vote = json.loads(request.body.decode('utf-8'))['vote']
 
-    if not vote.isnumeric():
+    if not str(vote).isnumeric():
         res['message'] = 'Value must be numeric'
     elif int(vote) not in range(1, 6):
         res['message'] = 'Vote must between 1 to 5 inclusive'

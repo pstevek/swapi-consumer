@@ -41,13 +41,13 @@ def save(people: any, cache_key: str, vote=0):
         people = [people]
     for p in people:
         data = {
-            'id': p['url'][29:-1],
+            'id': int(p['url'][29:-1]),
             'name': p['name'],
             'vote': int(vote)
         }
         res.append(data)
         cache_votes = list(cache.get('votes', []))
-        cache_votes[:] = [v for v in cache_votes if v['id'] not in set(data['id'])]
+        cache_votes[:] = [v for v in cache_votes if v['id'] not in iter([data['id']])]
         cache_votes.append(data)
         save_to_cache(key='votes', value=cache_votes)
 
