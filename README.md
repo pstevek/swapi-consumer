@@ -52,7 +52,16 @@ $ cd swapi-consumer
 $ ./start.sh
 ```
 
-The above `start.sh` script creates an environment based on the sample one provided and launches the required docker containers on your local network
+The above `start.sh` script creates an environment based on the sample one provided and launches the required docker containers on your local network:
+```bash
+$ docker container ls -a --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}"
+
+NAMES           IMAGE                    PORTS                    STATUS
+postpay-app     swapi-consumer-app       0.0.0.0:8000->8000/tcp   Up 10 minutes
+postpay-cache   redis:7.2.1-alpine3.18   0.0.0.0:6379->6379/tcp   Up 26 minutes (healthy)
+postpay-db      postgres:13-alpine       0.0.0.0:5432->5432/tcp   Up 56 minutes
+```
+
 ```
 NOTE: Caching TTL is set to 5ms (300s). It can be changed via the `.env.sample` file to any desired value
 ```
